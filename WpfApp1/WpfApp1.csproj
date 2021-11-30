@@ -11,4 +11,8 @@
     <PackageReference Include="RestSharp" Version="106.13.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Share\Share.csproj" />
+  </ItemGroup>
+
 </Project>

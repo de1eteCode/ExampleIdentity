@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
+using Share;
 
 namespace WpfApp1.Network
 {
@@ -18,7 +19,7 @@ namespace WpfApp1.Network
 
         public async Task<IRestResponse> Authorize(string username, string password)
         {
-            var request = new RestRequest(_urlServer + "account/login", Method.POST, DataFormat.Json).AddJsonBody(new {username, password});
+            var request = new RestRequest(_urlServer + "account/login", Method.POST, DataFormat.Json).AddJsonBody(new LoginModel { Username = username, Password = password});
             request.AddHeader("content-type", "application/json");
 
             var result = await _client.ExecuteAsync(request);
