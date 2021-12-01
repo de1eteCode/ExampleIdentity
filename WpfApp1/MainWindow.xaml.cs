@@ -52,16 +52,22 @@ namespace WpfApp1
 
         private async void LoginClick(object sender, RoutedEventArgs e)
         {
-            var result = await _webApi.Authorize(Login, Password);
-            TextResponse = $"Status: {result.StatusCode}\r\t Content: {result.Content}";
-
-            _webApi.SetCookie(result.Cookies.First());
+            SetResult(await _webApi.Authorize(Login, Password));
         }
 
         private async void Request(object sender, RoutedEventArgs e)
         {
-            var result = await _webApi.GetInfo();
-            TextResponse = $"Status: {result.StatusCode}\r\t Content: {result.Content}";
+            SetResult(await _webApi.GetInfo());
+        }
+
+        private void SetResult(RestSharp.IRestResponse? response)
+        {
+            TextResponse = String.Empty;
+            var type = response.GetType();
+            foreach (var property in type.GetProperties())
+            {
+                TextResponse += $"{property.Name}: {type.GetProperty(property.Name).GetValue(response)}\r\n";
+            }
         }
     }
 }
